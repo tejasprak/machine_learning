@@ -11,4 +11,4 @@ python position.py
 ```
 
 ### Sources
-- Data included is from BBall-Ref. It IS outdated, so get your own from the site and update before running?
+- Data included is from BBall-Ref. It IS outdated, so get your own from the site and update before running!
