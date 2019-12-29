@@ -1,13 +1,19 @@
+# Written by Tejas Prakash
+# Updated on December 23, 2019
+# Script to predict NBA player position based solely on stats
+
 import csv
 from sklearn.naive_bayes import GaussianNB
 import numpy as np
 from sklearn.svm import LinearSVC
 import warnings
+
 data = []
 feat = []
-# np.array(['1','2','3']).astype(np.float)
 
-with open('adv_stats86.csv') as csvfile:
+#Get input.
+input = raw_input("Enter name of file [adv_stats.csv]")
+with open(input) as csvfile:
         nbalist = csv.reader(csvfile)
         data = []
         target = []
@@ -44,20 +50,10 @@ with open('adv_stats86.csv') as csvfile:
                 feat.append(1)
             elif position == "SG-PG":
                 feat.append(0)
-            #feat.append(row[2])
-#print len(data)
-#print len(feat)
 data = np.array(data)
 feat = np.array(feat)
 print data
 print feat
-#print data
-#print len(data)
-#print len(feat)
-#gnb = GaussianNB()
-#model = gnb.fit(data, feat)
-#linSVC = LinearSVC()
-#linSVC.fit(data,feat)
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore",category=DeprecationWarning)
     with open('adv_stats86.csv') as csvfile:
@@ -66,15 +62,11 @@ with warnings.catch_warnings():
                 for i in range(25):
                     linSVC = LinearSVC()
                     linSVC.fit(data, feat)
-
                     result = linSVC._predict_proba_lr(array)
                     lonzo_list.append(list(result[0]))
-                    #print i
-                #print lonzo_list
                 avg = [float(sum(col))/len(col) for col in zip(*lonzo_list)]
                 return avg
             nbalist = csv.reader(csvfile)
-            #data = []
             target = []
             z = 0
             highest_value = 0.0
@@ -84,21 +76,14 @@ with warnings.catch_warnings():
                     z = z + 1
                     continue
                 name = row[1]
-                #print row
                 s = []
                 for i in range(8,19):
-                    #print name
                     if row[i] == "":
                         s.append(0)
                     else:
                         s.append(float(row[i]))
-                #result = linSVC._predict_proba_lr(s)
                 result = get_prediction(s)
-                #print result
-                #result = list(result)
                 max_value =  max(result)
-                #result = list(result)
-                #result = list(result[0])
                 role  = result.index(max_value)
                 pred = ""
                 if role == 0:
@@ -126,21 +111,6 @@ with warnings.catch_warnings():
                     position = 3
                 diff = position - role
                 diff = abs(diff)
-                #print diff
-                #if diff > 2:
-                #if role == 2:
-                #    if int(row[5]) > 45:
-                #        if result[2] > highest_value:
-                #            print name
-                #            highest_value = result[2]
-                #            highest_string = name + "Real position: " + str(position) + "Predicted position: " + str(role)
-                #            print "New Highest Found"
-#
-                #            print highest_string
-                #            print result
-                #else:
-                #    print name
-                #    print result
                 print name
                 print "Real position: " + str(position) + " Predicted position: " + str(role)
                 print result
@@ -163,8 +133,6 @@ with warnings.catch_warnings():
                 #if position == role:
                     #print "Match Found!"
 
-#array = [.580,.244,.397,2.0,11.4,6.9,48.9,3.5,0.1,12.4,23.7]
-#result = linSVC._predict_proba_lr(array)
-#    print result
+
 print highest_value
 print highest_string
