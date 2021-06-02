@@ -1,9 +1,8 @@
 # Written by Tejas Prakash
-# Updated on December 23, 2019
-# Script to predict NBA player position based solely on stats
+# Updated on June 2, 2021
+# Uses a support vector machine (SVM) to predict NBA player position
 
 import csv
-from sklearn.naive_bayes import GaussianNB
 import numpy as np
 from sklearn.svm import LinearSVC
 import warnings
